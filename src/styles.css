@@ -179,7 +179,7 @@ h2 em { font-weight: 450; }
 details[open] .faq-toggle::after { transform: rotate(0); }
 .faq-list details > p { font-size: 13px; color: var(--muted); margin: 0 25px 23px 0; line-height: 1.9; }
 .purchase-panel { position: relative; }
-.purchase-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.purchase-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .purchase-card { min-height: 245px; padding: 32px; border-radius: 13px; border: 1px solid #3e5031; display: flex; flex-direction: column; text-decoration: none; transition: transform .2s, border-color .2s, background .2s; }
 .purchase-card:hover { transform: translateY(-5px); border-color: #91bd5a; }
 .purchase-card-kirvano { background: radial-gradient(ellipse at 90% 0%, #b9ef6422, transparent 68%), #182216; color: var(--text); }
@@ -680,6 +680,7 @@ html { scroll-padding-top: 110px; }
   .contact h2 { font-size: 41px; }
 }
 @media (max-width: 850px) {
+  .purchase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .purchase-card { padding: 25px; }
   .purchase-card h3 { font-size: 27px; }
 }

@@ -18,9 +18,10 @@ export const services = [
     description: 'A sensi do Novizada para quem joga Free Fire no emulador. Ajuste a sensibilidade de acordo com o seu estilo de jogo.',
     tags: ['Sensibilidade', 'Emulador'],
     delivery: 'Liberação na hora',
-    timing: 'A sensi de emulador é liberada após a confirmação do pagamento no Discord.',
-    details: ['Sensi voltada para Free Fire no emulador', 'Pagamento e orientações pelo Discord', 'Confirme seu emulador e os detalhes antes da compra'],
-    action: 'Quero minha sensi',
+    timing: 'A sensi de emulador é liberada após a confirmação do pagamento na Kirvano.',
+    details: ['Sensi voltada para Free Fire no emulador', 'Pagamento seguro pela Kirvano', 'Orientações de uso após a confirmação'],
+    action: 'Comprar na Kirvano',
+    checkoutUrl: 'https://pay.kirvano.com/9b1d7e38-7aeb-4192-a4ca-737a182d7c94',
   },
   {
     id: 'pack-emulador',
@@ -59,9 +60,9 @@ export const services = [
 ];
 
 export const questions = [
-  ['Como faço para comprar?', 'Para a sensi mobile, clique em Comprar na Kirvano e conclua o pagamento por lá. Para a sensi de emulador e o pack com AnyDesk, entre no server do Novizada e fale com o Novi.'],
+  ['Como faço para comprar?', 'Para a sensi mobile ou a sensi de emulador, clique em Comprar na Kirvano e conclua o pagamento por lá. Para o pack com AnyDesk, entre no server do Novizada e fale com o Novi.'],
   ['Quanto custa cada sensi?', 'A sensi para mobile (Android e iOS) custa R$ 20,00. A sensi para emulador também custa R$ 20,00. O pack emu completo do Novizada custa R$ 49,99 e inclui sensi + otimização remota via AnyDesk.'],
-  ['Como recebo a sensi mobile?', 'Depois da confirmação do pagamento na Kirvano, você recebe a entrega digital e as orientações de uso do Novi.'],
+  ['Como recebo as sensis?', 'Depois da confirmação do pagamento na Kirvano, você recebe a entrega digital e as orientações de uso do Novi.'],
   ['O que muda no pack emu completo?', 'O pack de R$ 49,99 inclui a sensi para emulador e a otimização remota via AnyDesk. A sensi é liberada após a confirmação; o atendimento de otimização é agendado no Discord.'],
   ['A sensi mobile funciona em Android e iOS?', 'Sim. A oferta mobile é para Android e iOS. Consulte as orientações do arquivo para aplicar tudo corretamente no seu dispositivo.'],
   ['Como funciona a otimização via AnyDesk?', 'Você combina o horário no server do Novizada. No atendimento, a otimização do emulador é feita remotamente por AnyDesk, com o seu acompanhamento. O pagamento e o agendamento acontecem no Discord.'],
