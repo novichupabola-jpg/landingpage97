@@ -1,6 +1,6 @@
 # Novi Sensi
 
-Landing page em português para os serviços de Free Fire da Novi: sensi de
+Landing page em português para os serviços de Free Fire do Novi: sensi de
 emulador, painel de sensi e otimização mobile para Android/iOS e otimização
 de emulador via AnyDesk.
 
@@ -62,7 +62,7 @@ cópia independente.
 
 O convite público do Discord já está configurado. Todos os botões de compra
 e agendamento levam ao servidor; os cards primeiro abrem os detalhes do serviço.
-Valores e pagamentos são tratados no Discord. Não há checkout, cobrança,
+Os preços aparecem nos cards, nos planos mobile e no resumo da escolha. Pagamentos são tratados no Discord. Não há checkout, cobrança,
 liberação automática ou integração com o AnyDesk neste site.
 
 A sensi de emulador e o painel mobile são apresentados como liberados na hora
@@ -72,7 +72,7 @@ As condições e a compatibilidade são confirmadas no Discord.
 O projeto não contém telefone, link de WhatsApp, formulário de coleta,
 analytics ou banco de dados. Não adicione o telefone do responsável ao código,
 às URLs ou a variáveis públicas de build. As fontes são hospedadas pelo próprio
-site. O painel ilustrado no topo é uma arte conceitual da Novi; não representa
+site. O painel ilustrado no topo é uma arte conceitual do Novi; não representa
 captura do produto nem reproduz os painéis de outra marca.
 
 Todas as seções têm fundo escuro, incluindo os blocos de apresentação e
@@ -101,3 +101,36 @@ visível quando o navegador não oferece `IntersectionObserver`.
 
 Esses testes verificam a página e seus links. Não verificam validade/expiração
 do convite no Discord, pagamentos, acesso aos produtos ou atendimentos externos.
+
+## Catálogo e seleção de planos
+
+- Sensi para emulador: R$ 19,99.
+- Pack emu completo (sensi + otimização por AnyDesk): R$ 49,99.
+- Painel mobile: 10 dias R$ 15,90; 20 dias R$ 20,99; 30 dias R$ 35,99;
+  vitalício R$ 59,90.
+
+Os dados de preço e os benefícios ficam em `services` e `mobilePlans`, em
+`src/content.js`. Ao selecionar um plano, o resumo e o modal mostram o mesmo
+valor. O cliente pode copiar o pedido para compartilhar no atendimento do
+Discord. O site não processa pagamentos nem transmite o pedido automaticamente.
+
+A sensi do pack é liberada após confirmação do pagamento; a otimização é
+agendada. Não há valor de otimização avulsa informado nas referências.
+As referências à pessoa e à marca usam “o Novi” e “do Novizada”.
+
+## Hospedagem no Cloudflare Pages
+
+O projeto está preparado para um site Pages chamado `novisensi` (se o nome
+estiver disponível na conta). `wrangler.toml` aponta a saída estática `dist/`.
+Não há domínio próprio nem arquivo CNAME configurado. O endereço Pages só
+pode ser confirmado após a publicação autenticada no Cloudflare.
+
+Na integração com Git, selecione este repositório, branch `main`, comando
+`npm run build` e pasta de saída `dist`. Para upload direto, envie os arquivos
+de `dist/`, com `index.html` na raiz do pacote. Para CLI, com autenticação
+Cloudflare já configurada, use Wrangler Pages para criar o projeto e publicar
+`dist/` com `--project-name novisensi`. Não coloque tokens no repositório.
+
+A conexão do app na interface não garante que as ferramentas estejam
+disponíveis nesta sessão. Sem ferramenta de publicação ou autenticação CLI,
+a publicação Cloudflare fica pendente; não assumir que o site foi criado.
