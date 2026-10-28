@@ -1,0 +1,49 @@
+Novi Japanese — decorative Japanese subset
+
+Original family: Noto Sans JP
+Official source: https://github.com/google/fonts
+Pinned upstream commit: 9862abc066c9b83bf84c3e8ed1fc2d8d48f9bbf0
+Original font URL:
+https://raw.githubusercontent.com/google/fonts/9862abc066c9b83bf84c3e8ed1fc2d8d48f9bbf0/ofl/notosansjp/NotoSansJP%5Bwght%5D.ttf
+Original license URL:
+https://raw.githubusercontent.com/google/fonts/9862abc066c9b83bf84c3e8ed1fc2d8d48f9bbf0/ofl/notosansjp/OFL.txt
+
+Download transport: HTTPS through the inherited environment proxy, with default TLS verification enabled.
+License: SIL Open Font License 1.1; complete upstream license is OFL-Noto-Sans-JP.txt.
+The original font copyright and license metadata are retained in the subset.
+This subset is a modified font and is not endorsed by its upstream authors.
+
+Transformation:
+- fontTools 4.61.1
+- Instantiate the variable wght axis at 700 using fontTools.varLib.instancer.
+- Update the static font names using updateFontNames=True.
+- Subset to the distinct Unicode characters in ノヴィ, 感度, 集中, 最適化.
+- Retain names/license metadata and OpenType layout closure.
+- Encode as WOFF (zlib); no Brotli, WOFF2 encoder or additional npm dependencies.
+- Preserve the source modification timestamp for reproducible output.
+
+Included Unicode code points:
+U+30A3, U+30CE, U+30F4, U+4E2D, U+5316, U+5EA6, U+611F, U+6700, U+9069, U+96C6
+
+SHA-256:
+Original NotoSansJP variable TTF: c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f
+Upstream OFL.txt / OFL-Noto-Sans-JP.txt: 1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9
+Generated novi-japanese.woff: 43b738d031e67ccccac7b01442263b5e3cf73c8bc7a021b04d602689bf226022
+
+Generation recipe (Python):
+from fontTools.ttLib import TTFont
+from fontTools.varLib.instancer import instantiateVariableFont
+from fontTools import subset
+font = TTFont('NotoSansJP-variable.ttf', recalcTimestamp=False)
+font = instantiateVariableFont(font, {'wght': 700}, inplace=True, updateFontNames=True)
+options = subset.Options()
+options.flavor = 'woff'
+options.name_IDs = ['*']
+options.name_languages = ['*']
+options.name_legacy = True
+subsetter = subset.Subsetter(options=options)
+subsetter.populate(text='ノヴィ感度集中最適化')
+subsetter.subset(font)
+font.flavor = 'woff'
+font.recalcTimestamp = False
+font.save('novi-japanese.woff')
