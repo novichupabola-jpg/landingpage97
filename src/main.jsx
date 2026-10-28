@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { business, services, mobilePlans, questions } from './content';
+import { business, services, questions } from './content';
 import '@fontsource-variable/dm-sans/wght.css';
 import './styles.css';
 
@@ -124,51 +124,23 @@ function ServiceCard({ service, onDetails }) {
     <h3>{service.name}</h3>
     <p>{service.description}</p>
     <div className="service-tags">{service.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
-    <Price value={service.price} prefix={service.pricePrefix || 'Valor do serviço'} note={service.id === 'mobile' ? 'Planos de 10 dias ao vitalício' : 'Pagamento pelo Discord'} />
+    <Price value={service.price} prefix={service.pricePrefix || 'Valor do serviço'} note={service.id === 'mobile' ? 'Compra segura pela Kirvano' : 'Pagamento pelo Discord'} />
     <div className="delivery"><Icon name={service.id === 'pack-emulador' ? 'calendar' : 'bolt'} size={15} />{service.delivery}</div>
-    {service.id === 'mobile'
-      ? <a href="#planos-mobile" className="service-action">Ver os 4 planos<Icon name="down" size={17} /></a>
+    {service.checkoutUrl
+      ? <a className="service-action" href={service.checkoutUrl} target="_blank" rel="noopener noreferrer">{service.action}<Icon name="arrow" size={18} /></a>
       : <button type="button" className="service-action" onClick={() => onDetails(service)}>{service.action}<Icon name="arrow" size={18} /></button>}
   </article>;
-}
-
-function MobilePlans({ selectedPlan, onSelect, onDetails }) {
-  return <section className="mobile-plans container section-space" id="planos-mobile" aria-labelledby="mobile-title">
-    <div className="section-heading"><div><span className="eyebrow">02 / PAINEL MOBILE · ANDROID & iOS</span><h2 id="mobile-title">Seu mobile.<br /><em>O plano é seu.</em></h2></div><p>Sensi personalizada e otimização.<br />Escolha o acesso que combina com você.</p></div>
-    <div className="plans-layout">
-      <fieldset className="plans-grid"><legend className="sr-only">Escolha o período do painel mobile</legend>
-        {mobilePlans.map(plan => <label className={`plan-card ${plan.id === selectedPlan.id ? 'is-selected' : ''} ${plan.featured ? 'lifetime-plan' : ''}`} key={plan.id}>
-          <input className="sr-only" type="radio" name="mobile-plan" value={plan.id} checked={plan.id === selectedPlan.id} onChange={() => onSelect(plan)} aria-label={`Plano ${plan.name}, ${currency.format(plan.price)}`} />
-          <div className="plan-card-top"><span className="plan-period"><Icon name={plan.days ? 'calendar' : 'bolt'} size={18} />{plan.name}</span><span className="radio-indicator" aria-hidden="true"><Icon name="check" size={12} /></span></div>
-          <span className="plan-caption">{plan.days ? `${plan.days} dias de acesso ao painel` : 'Acesso completo + atualizações'}</span>
-          <Price value={plan.price} />
-          <ul className="plan-features">{plan.features.map(feature => <li key={feature}><Icon name="check" size={13} />{feature}</li>)}</ul>
-          <span className="plan-selection" aria-hidden="true">{plan.id === selectedPlan.id ? 'Plano selecionado' : 'Selecionar plano'}<Icon name="arrow" size={14} /></span>
-        </label>)}
-      </fieldset>
-      <aside className="order-summary" aria-labelledby="summary-title"><div className="summary-icon"><Icon name="mobile" size={25} /></div><span className="eyebrow">SUA ESCOLHA, SEM COMPLICAÇÃO</span><h3 id="summary-title">Painel mobile<br /><em>do Novi.</em></h3>
-        <div className="summary-selection" aria-live="polite" aria-atomic="true"><span>Plano selecionado</span><strong>{selectedPlan.name}</strong><Price value={selectedPlan.price} note={selectedPlan.days ? `Acesso por ${selectedPlan.days} dias` : 'Acesso vitalício'} /></div>
-        <div className="summary-facts"><span><Icon name="check" size={15} />Android e iOS</span><span><Icon name="bolt" size={15} />Liberação após confirmação</span><span><Icon name="discord" size={15} />Pagamento no Discord</span></div>
-        <button className="button button-lime" type="button" onClick={onDetails}>Continuar com este plano<Icon name="arrow" size={17} /></button>
-        <p>Você confere o resumo antes de seguir para o server do Novizada.</p>
-      </aside>
-    </div>
-    <p className="delivery-note">Valores por plano. O suporte e as atualizações acompanham o período escolhido. Confirme a compatibilidade do seu aparelho no Discord antes de pagar.</p>
-  </section>;
 }
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [motionPaused, setMotionPaused] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
-  const [selectedPlan, setSelectedPlan] = useState(mobilePlans[0]);
   const [copyStatus, setCopyStatus] = useState('');
   const [manualCopy, setManualCopy] = useState('');
   const dialogRef = useRef(null);
   const invite = discordUrl(business.discordInvite);
-  const mobileService = services.find(service => service.id === 'mobile');
-  const isMobile = selectedService?.id === 'mobile';
-  const orderPrice = isMobile ? selectedPlan.price : selectedService?.price;
+  const orderPrice = selectedService?.price;
   useSectionReveal();
 
   useEffect(() => {
@@ -186,15 +158,9 @@ function App() {
     dialogRef.current.showModal();
   }
 
-  function selectPlan(plan) {
-    setSelectedPlan(plan);
-    setCopyStatus('');
-    setManualCopy('');
-  }
-
   async function copyOrder() {
     if (!selectedService) return;
-    const message = `Olá, Novi! Quero ${selectedService.name}${isMobile ? ` — plano ${selectedPlan.name}` : ''}.\nValor: ${currency.format(orderPrice)}.\n${selectedService.timing}`;
+    const message = `Olá, Novi! Quero ${selectedService.name}.\nValor: ${currency.format(orderPrice)}.\n${selectedService.timing}`;
     try {
       await navigator.clipboard.writeText(message);
       setCopyStatus('Pedido copiado. Cole a mensagem no atendimento do Discord.');
@@ -218,7 +184,7 @@ function App() {
       <Brand />
       <button className="menu-toggle" type="button" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}><Icon name={menuOpen ? 'close' : 'menu'} /></button>
       <nav id="main-navigation" className={`navigation ${menuOpen ? 'is-open' : ''}`} aria-label="Navegação principal">
-        <a href="#servicos" onClick={() => setMenuOpen(false)}>Serviços e preços</a><a href="#planos-mobile" onClick={() => setMenuOpen(false)}>Planos mobile</a><a href="#como-funciona" onClick={() => setMenuOpen(false)}>Como comprar</a><DiscordLink {...discordProps} className="button button-nav">Server do Novizada</DiscordLink>
+        <a href="#servicos" onClick={() => setMenuOpen(false)}>Serviços e preços</a><a href="#como-funciona" onClick={() => setMenuOpen(false)}>Como comprar</a><a href="#comprar" onClick={() => setMenuOpen(false)}>Comprar</a><DiscordLink {...discordProps} className="button button-nav">Server do Novizada</DiscordLink>
       </nav>
     </header></div>
 
@@ -227,25 +193,23 @@ function App() {
         <JapaneseAccent className="jp-hero-side">ノヴィ</JapaneseAccent>
         <div className="hero-copy"><span className="eyebrow hero-pill"><i className="live-dot" /> SENSI & OTIMIZAÇÃO / FREE FIRE</span>
           <h1 id="hero-title">O seu jogo.<br />O seu ritmo.<br /><em>A sua sensi.</em></h1>
-          <p>A config é sua. O próximo ajuste é com <strong>o Novi.</strong> Sensi para emulador, painel mobile e otimização para jogar do seu jeito.</p>
+          <p>A config é sua. O próximo ajuste é com <strong>o Novi.</strong> Sensi para emulador, mobile Android e iOS, e otimização para jogar do seu jeito.</p>
           <div className="hero-actions"><a className="button button-lime" href="#servicos">Ver serviços e preços<Icon name="arrow" size={18} /></a><DiscordLink {...discordProps} className="text-link">Entrar no server</DiscordLink></div>
           <div className="hero-platforms"><span><Icon name="desktop" size={16} />Emulador</span><span><Icon name="mobile" size={16} />Android</span><span><Icon name="mobile" size={16} />iOS</span></div>
         </div>
         <HeroArt />
       </section>
 
-      <div className="benefit-strip"><div className="container"><span><Icon name="target" />SENSI DO NOVI</span><i /><span><Icon name="bolt" />EMU & MOBILE NA HORA<span className="asterisk">*</span></span><i /><span><Icon name="discord" />ATENDIMENTO NO DISCORD</span></div></div>
+      <div className="benefit-strip"><div className="container"><span><Icon name="target" />SENSI DO NOVI</span><i /><span><Icon name="bolt" />EMU & MOBILE POR R$ 20</span><i /><span><Icon name="discord" />ATENDIMENTO NO DISCORD</span></div></div>
 
       <section className="services container section-space" id="servicos" aria-labelledby="services-title">
         <JapaneseAccent className="jp-services">最適化</JapaneseAccent>
         <div className="section-heading"><div><span className="eyebrow">01 / SEU PRÓXIMO UPGRADE</span><h2 id="services-title">Escolha sua config.<br /><em>Conheça cada opção.</em></h2></div><p>Serviços do Novi, preços na página.<br />Tudo começa no server do Novizada.</p></div>
         <div className="services-grid">{services.map(service => <ServiceCard key={service.id} service={service} onDetails={showDetails} />)}</div>
-        <p className="delivery-note">* Sensi de emulador e painel mobile liberados após confirmação do pagamento. No pack completo, a otimização via AnyDesk é agendada.</p>
+        <p className="delivery-note">A sensi mobile é comprada pela Kirvano. A sensi de emulador e o pack completo são tratados no server do Novizada.</p>
       </section>
 
-      <MobilePlans selectedPlan={selectedPlan} onSelect={selectPlan} onDetails={() => showDetails(mobileService)} />
-
-      <section className="split-feature container" aria-labelledby="feature-title"><div className="feature-art" aria-hidden="true"><div className="feature-grid" /><JapaneseAccent className="jp-feature">集中</JapaneseAccent><span className="feature-label">NOVI / SEU ESTILO DE JOGO</span><Icon name="target" size={180} /><span className="feature-word">SEU JOGO.<br /><em>SEU AJUSTE.</em></span><span className="feature-mini">EMULADOR + MOBILE</span></div><div className="feature-copy"><span className="eyebrow">CADA PLAYER TEM O SEU ESTILO.</span><h2 id="feature-title">Config na medida.<br /><em>Do seu jeito.</em></h2><p>O Novi reúne sensi para emulador, painel para Android e iOS e otimização remota via AnyDesk. Você escolhe a opção e combina os próximos passos direto no Discord.</p><ul className="check-list"><li><Icon name="check" size={17} />Valores e períodos claros antes da compra</li><li><Icon name="check" size={17} />Sensi emu e painel mobile com liberação na hora*</li><li><Icon name="calendar" size={17} />Otimização do emulador com agendamento</li></ul><a href="#como-funciona" className="text-link">Veja como funciona<Icon name="arrow" size={17} /></a></div></section>
+      <section className="split-feature container" aria-labelledby="feature-title"><div className="feature-art" aria-hidden="true"><div className="feature-grid" /><JapaneseAccent className="jp-feature">集中</JapaneseAccent><span className="feature-label">NOVI / SEU ESTILO DE JOGO</span><Icon name="target" size={180} /><span className="feature-word">SEU JOGO.<br /><em>SEU AJUSTE.</em></span><span className="feature-mini">EMULADOR + MOBILE</span></div><div className="feature-copy"><span className="eyebrow">CADA PLAYER TEM O SEU ESTILO.</span><h2 id="feature-title">Config na medida.<br /><em>Do seu jeito.</em></h2><p>O Novi reúne sensi para emulador, sensi mobile para Android e iOS e otimização remota via AnyDesk. Você escolhe a opção e segue pelo canal certo para comprar ou agendar.</p><ul className="check-list"><li><Icon name="check" size={17} />Mobile com checkout seguro na Kirvano</li><li><Icon name="check" size={17} />Sensi emu por R$ 20,00 no Discord</li><li><Icon name="calendar" size={17} />Pack com AnyDesk e agendamento no Discord</li></ul><a href="#comprar" className="text-link">Ver os caminhos de compra<Icon name="arrow" size={17} /></a></div></section>
 
       <section className="process container section-space" id="como-funciona" aria-labelledby="process-title"><div className="section-heading"><div><span className="eyebrow">03 / DO PEDIDO AO SEU JOGO</span><h2 id="process-title">Escolheu? Agora<br /><em>é com o Novi.</em></h2></div><span className="section-side-note"><Icon name="discord" size={29} />Compra e atendimento<br />no mesmo lugar.</span></div><ol className="process-grid">{[
         ['Entre no server do Novizada.', 'Acesse o servidor oficial pelo botão do Discord.'],
@@ -256,10 +220,12 @@ function App() {
 
       <section className="faq container section-space" id="duvidas" aria-labelledby="faq-title"><div><span className="eyebrow">04 / DIRETO AO PONTO</span><h2 id="faq-title">Antes de<br /><em>dar o play.</em></h2><p>Preços, acesso e atendimento.<br />Confira o que você precisa saber.</p><DiscordLink {...discordProps} className="text-link">Conversar com o Novi</DiscordLink></div><div className="faq-list">{questions.map(([question, answer]) => <details key={question}><summary>{question}<span className="faq-toggle" aria-hidden="true" /></summary><p>{answer}</p></details>)}</div></section>
 
-      <section className="contact container" aria-labelledby="contact-title"><JapaneseAccent className="jp-contact">ノヴィ</JapaneseAccent><div><span className="eyebrow"><i className="live-dot" /> O SEU PRÓXIMO AJUSTE COMEÇA AQUI.</span><h2 id="contact-title">A próxima config<br /><em>é com o Novi.</em></h2><p>Escolha sua sensi, seu plano mobile ou o pack completo.<br className="desktop-break" /> Entre no server do Novizada e dê o próximo passo.</p><DiscordLink {...discordProps}>Entrar no server do Novizada</DiscordLink></div><div className="contact-art" aria-hidden="true"><Icon name="discord" size={180} /><span>NOVI SENSI<br />SEU JOGO. SEU AJUSTE.</span></div></section>
+      <section className="purchase-panel container section-space" id="comprar" aria-labelledby="purchase-title"><div className="section-heading"><div><span className="eyebrow">05 / AGORA SOMOS KIRVANO</span><h2 id="purchase-title">Escolha o caminho.<br /><em>Compre com clareza.</em></h2></div><p>Mobile direto pela Kirvano.<br />Emulador e AnyDesk com o Novi no Discord.</p></div><div className="purchase-grid"><a className="purchase-card purchase-card-kirvano" href="https://pay.kirvano.com/9b1d7e38-7aeb-4192-a4ca-737a182d7c94" target="_blank" rel="noopener noreferrer"><span className="purchase-kicker"><Icon name="bolt" size={17} />CHECKOUT ONLINE</span><h3>Sensi mobile</h3><p>Android e iOS · arquivo digital</p><strong>R$ 20,00 <Icon name="arrow" size={18} /></strong><span className="purchase-note">Comprar pela Kirvano</span></a><div className="purchase-card purchase-card-discord"><span className="purchase-kicker"><Icon name="discord" size={17} />ATENDIMENTO HUMANO</span><h3>Sensi emu + pack</h3><p>Sensi R$ 20,00 · pack completo R$ 49,99</p><DiscordLink {...discordProps}>Falar com o Novi no Discord</DiscordLink><span className="purchase-note">AnyDesk com agendamento e suporte</span></div></div></section>
+
+      <section className="contact container" aria-labelledby="contact-title"><JapaneseAccent className="jp-contact">ノヴィ</JapaneseAccent><div><span className="eyebrow"><i className="live-dot" /> AGORA SOMOS KIRVANO.</span><h2 id="contact-title">Compra fácil.<br /><em>Suporte de verdade.</em></h2><p>Mobile pela Kirvano. Emulador e otimização com o Novi no Discord.<br className="desktop-break" /> Escolha seu caminho e comece agora.</p><div className="contact-actions"><a className="button button-lime" href="https://pay.kirvano.com/9b1d7e38-7aeb-4192-a4ca-737a182d7c94" target="_blank" rel="noopener noreferrer">Comprar mobile na Kirvano<Icon name="arrow" size={17} /></a><DiscordLink {...discordProps}>Entrar no server do Novi</DiscordLink></div></div><div className="contact-art" aria-hidden="true"><Icon name="target" size={180} /><span>NOVI SENSI<br />SEU JOGO. SEU AJUSTE.</span></div></section>
     </main>
 
-    <footer className="site-footer container"><Brand /><p>Do Novizada. Para o seu jogo.</p><a className="back-top" href="#inicio">Voltar ao topo ↑</a><div className="footer-bottom"><span>© {new Date().getFullYear()} Novi Sensi.</span><button className="motion-toggle" type="button" aria-label="Pausar animações" aria-pressed={motionPaused} onClick={() => setMotionPaused(!motionPaused)}><Icon name={motionPaused ? 'play' : 'pause'} size={13} />{motionPaused ? 'Animações pausadas' : 'Pausar animações'}</button><span>Projeto independente, sem vínculo com a Garena ou Free Fire.</span></div></footer>
+    <footer className="site-footer container"><Brand /><p className="footer-links"><a href="https://pay.kirvano.com/9b1d7e38-7aeb-4192-a4ca-737a182d7c94" target="_blank" rel="noopener noreferrer">Kirvano · comprar mobile</a><span>·</span><a href={invite || business.discordInvite} target="_blank" rel="noopener noreferrer">Discord · emulador e suporte</a></p><a className="back-top" href="#inicio">Voltar ao topo ↑</a><div className="footer-bottom"><span>© {new Date().getFullYear()} Novi Sensi.</span><button className="motion-toggle" type="button" aria-label="Pausar animações" aria-pressed={motionPaused} onClick={() => setMotionPaused(!motionPaused)}><Icon name={motionPaused ? 'play' : 'pause'} size={13} />{motionPaused ? 'Animações pausadas' : 'Pausar animações'}</button><span>Projeto independente, sem vínculo com a Garena ou Free Fire.</span></div></footer>
 
     <dialog ref={dialogRef} className="service-dialog" aria-labelledby="dialog-title" onClick={closeBackdrop} onClose={() => { setCopyStatus(''); setManualCopy(''); }}>
       <button type="button" className="close-dialog" aria-label="Fechar detalhes" onClick={() => dialogRef.current.close()}><Icon name="close" /></button>
@@ -267,9 +233,8 @@ function App() {
       <h2 id="dialog-title">{selectedService ? selectedService.name : 'O encontro é no Discord.'}</h2>
       {selectedService && <>
         <p>{selectedService.description}</p>
-        {isMobile && <label className="dialog-plan-label">Seu plano mobile<select value={selectedPlan.id} onChange={event => selectPlan(mobilePlans.find(plan => plan.id === event.target.value))}>{mobilePlans.map(plan => <option key={plan.id} value={plan.id}>{plan.name} — {currency.format(plan.price)}</option>)}</select></label>}
-        <Price className="dialog-price" value={orderPrice} prefix="Valor da sua escolha" note={isMobile ? `Painel mobile · ${selectedPlan.name}` : 'Pagamento pelo Discord'} />
-        <ul className="check-list">{(isMobile ? selectedPlan.features : selectedService.details).map(detail => <li key={detail}><Icon name="check" size={17} />{detail}</li>)}</ul>
+        <Price className="dialog-price" value={orderPrice} prefix="Valor da sua escolha" note="Pagamento pelo Discord" />
+        <ul className="check-list">{selectedService.details.map(detail => <li key={detail}><Icon name="check" size={17} />{detail}</li>)}</ul>
         <p className="dialog-timing"><Icon name={selectedService.id === 'pack-emulador' ? 'calendar' : 'bolt'} size={18} />{selectedService.timing}</p>
         <button className="copy-order" type="button" onClick={copyOrder}>Copiar resumo do pedido<Icon name="copy" size={16} /></button>
         <p className="copy-status" role="status">{copyStatus}</p>
