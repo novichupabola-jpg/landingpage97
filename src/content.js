@@ -21,7 +21,7 @@ export const services = [
     timing: 'A sensi de emulador é liberada após a confirmação do pagamento na Kirvano.',
     details: ['Sensi voltada para Free Fire no emulador', 'Pagamento seguro pela Kirvano', 'Orientações de uso após a confirmação'],
     action: 'Comprar na Kirvano',
-    checkoutUrl: 'https://pay.kirvano.com/9b1d7e38-7aeb-4192-a4ca-737a182d7c94',
+    checkoutUrl: 'https://pay.kirvano.com/6f43e30a-b2f1-4094-be9b-a512b1861766',
   },
   {
     id: 'pack-emulador',
