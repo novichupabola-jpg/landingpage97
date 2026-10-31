@@ -1,0 +1,7 @@
+NOVI SENSI — VERSÃO AZUL
+
+Extraia novisensi-azul-cloudflare.zip e envie o conteúdo para a atualização dos arquivos estáticos do serviço novizada na Cloudflare. O index.html fica na raiz, junto de favicon.svg e da pasta assets. Preserve os diretórios e nomes dos arquivos.
+
+O pacote já está compilado. Não é preciso instalar dependências para publicar esses arquivos.
+
+A identidade usa azul #69a9ff com fundos escuros. Preços, serviços, links Kirvano/Discord e interações do projeto foram preservados.
