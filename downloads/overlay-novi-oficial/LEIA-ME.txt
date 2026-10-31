@@ -1,0 +1,6 @@
+NOVI — OVERLAY DE LIVE
+10 segundos | 1800 x 600 | 30 fps | sem áudio
+
+No OBS: adicione novi-overlay-oficial.webm como Fonte de mídia e marque Repetir para exibição contínua. O WebM mantém a transparência. O MP4 e o GIF são prévias sobre fundo escuro.
+
+A marca n. NOVI aparece plana e frontal; a moldura recebe os efeitos.
