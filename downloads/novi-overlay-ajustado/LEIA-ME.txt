@@ -1,0 +1,10 @@
+NOVI — OVERLAY INTEIRO CENTRALIZADO, SEM SOBRA LATERAL
+
+Arquivo: novi-overlay-sem-sobra-tiktok.mp4
+1080 x 384 | 60 fps | 10 segundos | H.264 | sem áudio | fundo preto
+
+Esta revisão recorta a área vazia do arquivo anterior e centraliza o conjunto completo (mascote + faixa). A área útil foi medida ao longo dos 600 quadros para preservar a flutuação e os efeitos. As margens opostas foram equilibradas e o vídeo não foi esticado.
+
+A arte, as mensagens, as cores, os efeitos e o ritmo foram mantidos. O mascote não foi movido separadamente nesta revisão.
+
+No TikTok LIVE Studio, use este novo MP4 como fonte de mídia e ative a repetição para loop.
