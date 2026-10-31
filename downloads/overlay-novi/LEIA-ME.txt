@@ -1,0 +1,12 @@
+NOVI — OVERLAY PARA LIVE
+
+novi-overlay-transparente.webm: arquivo para a transmissão, com fundo transparente.
+1200 × 400 px | 30 fps | 10 segundos | sem áudio.
+
+No OBS Studio: adicione uma Fonte de mídia, selecione o WebM e marque Repetir se quiser reprodução contínua. Redimensione e posicione a faixa na cena. Ative reiniciar reprodução quando a fonte se tornar ativa para reproduzir desde o começo ao trocar de cena.
+
+novi-overlay-preview.mp4: prévia sobre fundo cinza; use o WebM na live para manter a transparência.
+
+Mensagens: SENSI DO NOVI → EMULADOR + MOBILE → LINK NA BIO.
+Símbolo N criado para esta peça; não é um logotipo oficial fornecido pelo usuário.
+render.py: fonte editável da animação, requer Python/Pillow e FFmpeg com libvpx-vp9.
