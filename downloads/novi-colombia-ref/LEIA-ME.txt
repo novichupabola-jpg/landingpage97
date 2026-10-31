@@ -1,0 +1,14 @@
+NOVI — OVERLAY BASEADO NO VÍDEO DA COLÔMBIA
+
+1200 x 400 | 40 fps | 10 segundos | sem áudio
+
+A faixa amarela, a borda vermelha e os efeitos vêm do vídeo de referência. A marca e as mensagens foram substituídas.
+
+No OBS: adicione novi-colombia-ref.webm como Fonte de mídia. Marque Repetir para loop. O WebM tem transparência; o MP4 e o GIF são prévias com fundo cinza-escuro.
+
+Mensagens:
+SENSI DO NOVI
+EMU E MOBILE
+SUA CONFIG, SEU JOGO
+CONFIRA OS PLANOS
+LINK NA BIO
