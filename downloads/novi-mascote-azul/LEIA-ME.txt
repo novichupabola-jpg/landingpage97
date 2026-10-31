@@ -1,0 +1,11 @@
+NOVI — MASCOTE DA SKIN E OVERLAY PRETO/AZUL
+
+novi-mascote-azul-tiktok.mp4: overlay pronto para TikTok LIVE Studio, 1200 x 400, 60 fps, 10 segundos, H.264, sem áudio e com fundo preto.
+
+No TikTok LIVE Studio, adicione o MP4 como uma fonte de mídia e ative a repetição para loop.
+
+mascote-novi.png: mascote em PNG com fundo transparente, baseado na skin enviada (cabelo preto espetado, olhos roxos, máscara com presas e detalhes vermelhos, camisa azul com número 1).
+
+O mascote flutua como a logo da versão anterior. A faixa usa preto e azul #69a9ff, com o efeito luminoso e o timing da versão escolhida pelo usuário, sem halo circular.
+
+Mensagens: SENSI DO NOVI / EMU E MOBILE / SUA CONFIG, SEU JOGO / CONFIRA OS PLANOS / LINK NA BIO.
